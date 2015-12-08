@@ -131,11 +131,15 @@ def adopt(adopter_ids, puppy_id):
     puppy = session.query(Puppy).\
             filter(Puppy.puppy_id == puppy_id).one()
     adopters = []
+
+    # Lookup adopters corresponding to adopter IDs and store in list
     for adopter_id in adopter_ids:
         adopters.append(session.query(Adopter).\
                 filter(Adopter.adopter_id == adopter_id).one())
     # print puppy
     # print adopters
+
+    # Add adopters to puppy
     for adopter in adopters:
         puppy.adopters.append(adopter)
 
@@ -143,7 +147,11 @@ def adopt(adopter_ids, puppy_id):
         shelter = session.query(Shelter).\
                 filter(Shelter.shelter_id == puppy.shelter_id).one()
         puppy.shelter_id = None
-        shelter.current_occupancy =- 1
-        print shelter.current_occupancy
+        shelter.current_occupancy -= 1
+        session.add(shelter)
 
+    session.add(puppy)
+    for adopter in adopters:
+        session.add(adopter)
     session.commit()
+

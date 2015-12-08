@@ -40,6 +40,20 @@ import puppypopulator_puppies
 # --------- End reference table
 
 
+def setup():
+    global transaction, connection, engine
+
+    engine = create_engine('sqlite:///puppies.db')
+    connection = engine.connect()
+    transaction = connection.begin()
+    Base.metadata.create_all(connection)
+
+
+def teardown():
+    transaction.rollback()
+    connection.close()
+    engine.dispose()
+
 
 def test_check_in():
     # move puppy Bailey (puppy_id = 1) from shelter x to shelter x+1
@@ -48,7 +62,6 @@ def test_check_in():
     test_puppy = session.query(Puppy).\
             filter(Puppy.puppy_id).first()
     old_shelter_id = test_puppy.shelter_id
-    print "old_shelter_id: " + str(old_shelter_id)
     new_shelter_id = old_shelter_id % 5 + 1
     old_shelter = session.query(Shelter).\
             filter(Shelter.shelter_id == old_shelter_id).one()
@@ -82,7 +95,6 @@ def test_check_in():
 
 
 def test_adopt():
-    # Nami and Quinn adopting Bailey (puppy_id=1)
     adopters = session.query(Adopter).limit(2)
     adopter_ids = []
     for adopter in adopters:
@@ -109,25 +121,29 @@ def test_adopt():
     # adopt
     adopt(adopter_ids, puppy.puppy_id)
 
+    # Reference database to find the newly changed Puppy
+    new_puppy = session.query(Puppy).\
+            filter(Puppy.puppy_id == 1).one()
+
     puppy_new_adopters = []
-    for new_adopter in puppy.adopters:
+    for new_adopter in new_puppy.adopters:
         puppy_new_adopters.append(new_adopter.adopter_id)
     new_shelter_occupancy = old_shelter.current_occupancy
 
     # Verify that puppy has correct adopters referenced
-    if len(puppy.adopters) != 2:
+    if len(new_puppy.adopters) != 2:
         raise ValueError(
-                "\n\tIncorrect number of adopters: puppy.adopters: " + \
-                        str(puppy.adopters))
+                "\n\tPuppy: " + str(new_puppy.name) + " " + str(new_puppy.puppy_id) + \
+                "\n\tIncorrect number of adopters: new_puppy.adopters: " + \
+                        str(new_puppy.adopters))
 
     # Verify that adopters are the correct adopters
-    for adopter in puppy.adopters:
+    for adopter in new_puppy.adopters:
         # print "Comparing " + str(adopter.adopter_id) + " to " + str(adopter_ids)
         if adopter.adopter_id not in adopter_ids:
             raise ValueError(
                     "\n\tIncorrect adopters listed: puppy.adopters: " + \
-                            str(puppy.adopters))
-
+                            str(new_puppy.adopters))
 
     # Verify that adopters have puppy listed as adoptee
     for adopter in adopters:
@@ -137,13 +153,13 @@ def test_adopt():
                     "\n\tnew_puppy_adopters: " + str(puppy_new_adopters))
 
     # Verify that shelter occupancy has been decremented
-    # if (old_shelter_occupancy - new_shelter_occupancy) != 1:
-        # raise ValueError(
-                # "\n\tShelter occupancy incorrectly updated: " + \
-                        # "old occupancy: " + str(old_shelter_occupancy) + \
-                        # "new occupancy: " + str(new_shelter_occupancy))
+    if (old_shelter_occupancy - new_shelter_occupancy) != 1:
+        raise ValueError(
+                "\n\tShelter occupancy incorrectly updated: " + \
+                        "old occupancy: " + str(old_shelter_occupancy) + \
+                        "new occupancy: " + str(new_shelter_occupancy))
 
-    raise ValueError("test_adopt() is not yet implemented!")
+    # raise ValueError("test_adopt() is not yet implemented!")
     print "2. Puppies can be adopted."
 
 

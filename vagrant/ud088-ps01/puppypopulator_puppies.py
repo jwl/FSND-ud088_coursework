@@ -38,6 +38,17 @@ def CreateRandomWeight():
 def populate_database():
     engine = create_engine('sqlite:///puppies.db')
     Base.metadata.bind = engine
+
+    # Delete database
+    # try:
+        # os.remove("puppies.db")
+    # except OSError:
+        # pass
+
+    # regenerate database
+    Base.metadata.create_all(engine)
+
+    # connect to database
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
