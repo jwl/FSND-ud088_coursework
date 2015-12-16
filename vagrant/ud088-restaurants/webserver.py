@@ -33,6 +33,33 @@ class webserverHandler(BaseHTTPRequestHandler):
                 print output
                 return
 
+            if self.path.endswith("/edit"):
+                # Page for editing a restaurant's name
+
+                # extract restaurant ID and lookup restaurant in DB
+                restaurantID = self.path.split("/")[2]
+                restaurant = session.query(Restaurant).filter_by(
+                        id=restaurantID).one()
+
+                if restaurant:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'text/html')
+                    self.end_headers()
+                    output = ""
+                    output += "<html><body>"
+
+                    output += "<form method='POST' enctype='multipart/form-data' action='/restaurants/%s/edit'>" % restaurantID
+                    output += "<h2>Enter the new name for %s</h2>" % \
+                            restaurant.name
+                    output += "<input name='new_name' type='text' placeholder='%s'><input type='submit' value='Change'> </form>" % restaurant.name
+
+                    output += "</br><a href='/restaurants'>Back to list</a>"
+
+                    output += "</body></html>"
+                    self.wfile.write(output)
+                    print output
+                return
+
             if self.path.endswith("/restaurants"):
                 # List all restaurants in database
                 self.send_response(200)
@@ -44,10 +71,12 @@ class webserverHandler(BaseHTTPRequestHandler):
                 for restaurant in restaurants:
                     output += "<p>"
                     output += "%s</br>" % restaurant.name
-                    output += "<a href='#'>Edit</a><br>"
+                    output += "<a href='/restaurants/%s/edit'>Edit</a><br>" % \
+                            restaurant.id
                     output += "<a href='#'>Delete</a>"
                     output += "</p>"
-                output += "Add a <a href='/restaurants/new'>new restaurant</a>!"
+                output += "Add a <a href='/restaurants/new'>" \
+                        "new restaurant</a>!"
                 output += "</body></html>"
                 self.wfile.write(output)
                 print output
@@ -84,9 +113,30 @@ class webserverHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
+            # Execute name change for a given restaurant
+            if self.path.endswith("/edit"):
+                ctype, pdict = cgi.parse_header(
+                        self.headers.getheader('content-type'))
+                if ctype == 'multipart/form-data':
+                    fields = cgi.parse_multipart(self.rfile, pdict)
+                    messagecontent = fields.get('new_name')
+                    restaurantID = self.path.split("/")[2]
+                    print "restaurant ID is: ", restaurantID
+
+                # lookup existing restaurant, edit, and commit change
+                restaurant = session.query(Restaurant).filter_by(
+                        id=restaurantID).one()
+                if restaurant != []:
+                    restaurant.name = messagecontent[0]
+                    session.add(restaurant)
+                    session.commit()
+                    self.send_response(301)
+                    self.send_header('Content-type', 'text/html')
+                    self.send_header('Location', '/restaurants')
+                    self.end_headers()
+
 
             if self.path.endswith("/restaurants/new"):
-                print "in do_POST for /restaurant/new"
                 ctype, pdict = cgi.parse_header(
                         self.headers.getheader('content-type'))
                 if ctype == 'multipart/form-data':
