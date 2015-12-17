@@ -47,18 +47,39 @@ class webserverHandler(BaseHTTPRequestHandler):
                     self.end_headers()
                     output = ""
                     output += "<html><body>"
-
                     output += "<form method='POST' enctype='multipart/form-data' action='/restaurants/%s/edit'>" % restaurantID
                     output += "<h2>Enter the new name for %s</h2>" % \
                             restaurant.name
                     output += "<input name='new_name' type='text' placeholder='%s'><input type='submit' value='Change'> </form>" % restaurant.name
-
                     output += "</br><a href='/restaurants'>Back to list</a>"
-
                     output += "</body></html>"
                     self.wfile.write(output)
                     print output
                 return
+
+            if self.path.endswith("/delete"):
+                # Page for deleting a restaurant from DB
+
+                # extract restaurant Id and lookup restaurant in DB
+                restaurantID = self.path.split("/")[2]
+                restaurant = session.query(Restaurant).filter_by(
+                        id = restaurantID).one()
+
+                if restaurant:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'text/html')
+                    self.end_headers()
+                    output = ""
+                    output += "<html><body>"
+                    output += "<h2>Are you sure you want to delete %s?</h2>" % \
+                            restaurant.name
+                    output += "<form method='POST' enctype='multipart/form-data' action='/restaurants/%s/delete'>" % restaurantID
+                    output += "<input type='submit' value='Delete'> </form>"
+                    output += "<a href='/restaurants'>Back to list</a>"
+                    output += "</body></html>"
+                    self.wfile.write(output)
+                    print output
+
 
             if self.path.endswith("/restaurants"):
                 # List all restaurants in database
@@ -73,7 +94,8 @@ class webserverHandler(BaseHTTPRequestHandler):
                     output += "%s</br>" % restaurant.name
                     output += "<a href='/restaurants/%s/edit'>Edit</a><br>" % \
                             restaurant.id
-                    output += "<a href='#'>Delete</a>"
+                    output += "<a href='/restaurants/%s/delete'>Delete</a>" % \
+                            restaurant.id
                     output += "</p>"
                 output += "Add a <a href='/restaurants/new'>" \
                         "new restaurant</a>!"
@@ -113,6 +135,21 @@ class webserverHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
+            # Execute restaurant deletion
+            if self.path.endswith("/delete"):
+                restaurantID = self.path.split("/")[2]
+                restaurant = session.query(Restaurant).filter_by(
+                        id = restaurantID).one()
+                if restaurant != []:
+                    print("Deleting restaurant %s", restaurant.name)
+                    session.delete(restaurant)
+                    session.commit()
+                    self.send_response(301)
+                    self.send_header('Content-type', 'text/html')
+                    self.send_header('Location', '/restaurants')
+                    self.end_headers()
+
+
             # Execute name change for a given restaurant
             if self.path.endswith("/edit"):
                 ctype, pdict = cgi.parse_header(
