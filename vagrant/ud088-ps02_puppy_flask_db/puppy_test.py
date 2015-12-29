@@ -5,7 +5,7 @@
 from database_setup import *
 from puppy_functions import *
 
-import test_data_popualotor
+import test_data_populator
 
 # ---------- Reference table from puppypopulator test data
 # NOTE: shelter IDs are randomized everytime test data is generated!
@@ -164,8 +164,8 @@ def test_adopt():
 
 
 if __name__ == '__main__':
-    puppypopulator_puppies.populate_database()
+    test_data_populator.populate_database()
     test_check_in()
-    puppypopulator_puppies.populate_database()
+    test_data_populator.populate_database()
     test_adopt()
     print "Success! All tests pass!"

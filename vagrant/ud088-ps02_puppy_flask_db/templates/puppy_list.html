@@ -1,0 +1,44 @@
+<html>
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<div class = 'pane'>
+<div class = 'header'>
+	<h1>Puppies!</h1>
+</div>
+
+
+<!-- Message Flashing -->
+<div class = 'flash'>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+
+<ul>
+{% for message in messages %}
+	<li><strong>{{message}}</strong></li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+</div> <!-- End Message Flashing -->
+
+
+{% for puppy in puppies %}
+<div class = 'puppyPane'> <!-- Begin individual Puppy div -->
+<div class = 'name'>
+	<span class = 'name'><p>{{puppy.name}}</p></span>
+</div>
+
+<div class = 'puppyInfo'>
+	<p>{{puppy.puppy_id}}</p>
+</div>
+
+</div> <!-- End individual puppy div -->
+{% endfor %}
+
+</div> <!-- End pane div -->
+</body>
+</html>
+
