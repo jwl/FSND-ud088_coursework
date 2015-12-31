@@ -6,7 +6,7 @@ h2              { font-size: 1.2em; }
 
 p, dd, dt               { color: #CCCCCC;}
 
-a {text-decoration: none; color:#FFFFCC; font-size: .75em;}
+a {text-decoration: none; color:#FFFFCC;}
 
 .pane {position:absolute; left: 25%; border: 2px solid;
     border-radius: 25px; padding: 5px; margin: 5px; border-color: #999999; background-color: #333333 }
@@ -16,7 +16,7 @@ a {text-decoration: none; color:#FFFFCC; font-size: .75em;}
 .puppyInfo {}
 .itemInfo {}
 .itemID {text-align: right; width:50%; float: right; }
-.editdeletepane{}
+.editDeletePane {}
 .puppyPane {border: 2px solid; border-radius: 10px; border-color: #cccccc; margin: 5px; padding: 5px;}
 .itemPane {border: 2px solid; border-radius: 5px; border-color: #666666; margin: 5px; padding: 5px;}
 

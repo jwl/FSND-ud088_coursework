@@ -4,9 +4,9 @@
 </head>
 <body>
 
-<div class = 'pane'>
+<div class = 'pane'> <!-- Begin content pane -->
 <div class = 'header'>
-	<h1>Puppies!</h1>
+	<h1>{{puppy.name}}</h1>
 </div>
 
 
@@ -24,19 +24,11 @@
 {% endwith %}
 </div> <!-- End Message Flashing -->
 
-
-{% for puppy in puppies %}
-<div class = 'puppyPane'> <!-- Begin individual Puppy div -->
-<div class = 'name'>
-	<span class = 'name'><p><a href="{{url_for('puppyProfile', puppy_id = puppy.puppy_id)}}">{{puppy.name}}</a></p></span>
-</div>
-
-<div class = 'puppyInfo'>
-	<p>{{puppy.puppy_id}}</p>
-</div>
-
-</div> <!-- End individual puppy div -->
-{% endfor %}
+<p>Name: {{puppy.name}}</p>
+<p>ID number: {{puppy.puppy_id}}</p>
+<p>Gender: {{puppy.gender}}</p>
+<p>Date of Birth: {{puppy.dateOfBirth}}</p>
+<p>Weight: {{puppy.weight}}</p>
 
 </div> <!-- End pane div -->
 </body>

@@ -37,6 +37,12 @@
 	<p>{{item.current_occupancy}}/{{item.maximum_capacity}}</p>
 </div>
 
+
+<div class = "editDeletePane">
+	<a href="{{url_for('editShelter', shelter_id = item.shelter_id)}}">Edit</a>
+	<a href="{{url_for('deleteShelter', shelter_id = item.id)}}">Delete</a>
+</div>
+
 </div> <!-- End individual item div -->
 {% endfor %}
 
