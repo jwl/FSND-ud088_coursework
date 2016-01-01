@@ -28,7 +28,7 @@
 {% for item in items %}
 <div class = 'itemPane'> <!-- Begin individual item div -->
 <div class = 'nameAndID'>
-	<span class = 'name'><p>{{item.name}}</p></span>
+	<span class = 'name'><p><a href="{{url_for('shelterProfile', shelter_id = item.shelter_id)}}">{{item.name}}</a></p></span>
 	<span class = 'itemID'><p>{{item.shelter_id}}</p></span>
 </div>
 
@@ -39,8 +39,8 @@
 
 
 <div class = "editDeletePane">
-	<a href="{{url_for('editShelter', shelter_id = item.shelter_id)}}">Edit</a>
-	<a href="{{url_for('deleteShelter', shelter_id = item.id)}}">Delete</a>
+	<a href="{{url_for('editShelter', shelter_id = item.shelter_id)}}">Edit</a><br>
+	<a href="{{url_for('deleteShelter', shelter_id = item.shelter_id)}}">Delete</a>
 </div>
 
 </div> <!-- End individual item div -->

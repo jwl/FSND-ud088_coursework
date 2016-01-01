@@ -1,0 +1,42 @@
+<html>
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<div class = 'pane'> <!-- Begin content pane -->
+<div class = 'header'>
+	<h1>{{shelter.name}}</h1>
+</div>
+
+
+<!-- Message Flashing -->
+<div class = 'flash'>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+
+<ul>
+{% for message in messages %}
+	<li><strong>{{message}}</strong></li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+</div> <!-- End Message Flashing -->
+
+<p>Name: {{shelter.name}}</p>
+<p>ID number: {{shelter.shelter_id}}</p>
+<p>Address: {{shelter.address}}</p>
+<p>City: {{shelter.city}}</p>
+<p>State: {{shelter.state}}</p>
+<p>Zip Code: {{shelter.zipCode}}</p>
+<p>Website URL: {{shelter.website}}</p>
+<br>
+<p>Current Occupancy: {{shelter.maximum_capacity}}</p>
+<p>Maximum Capacity: {{shelter.current_occupancy}}</p>
+
+</div> <!-- End pane div -->
+</body>
+</html>
+
+
