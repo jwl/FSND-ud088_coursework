@@ -19,11 +19,10 @@ def puppy_list():
     # puppies = session.query(Puppy).order_by(Puppy.name)
     puppies = session.query(Puppy).order_by(Puppy.puppy_id)
     return render_template(
-            'puppy_list.html', puppies = puppies)
+            'puppy_list.html', items = puppies)
 
 @app.route('/puppies/<int:puppy_id>')
-def puppyProfile(puppy_id):
-    # print "puppyProfile, puppy_id: ", puppy_id
+def profilePuppy(puppy_id):
     puppy = session.query(Puppy).filter_by(puppy_id = puppy_id).one()
     return render_template(
             'puppy_profile.html', puppy = puppy)
@@ -44,17 +43,29 @@ def newPuppy(puppy_id):
 
 @app.route('/puppies/<int:puppy_id>/edit/')
 def editPuppy(puppy_id):
-    # TODO: implement edit functionality
-    shelter = session.query(Puppy).filter_by(puppy_id = puppy_id).one()
-    return render_template(
-            'puppy_profile.html', puppy = puppy)
+    puppy = session.query(Puppy).filter_by(puppy_id = puppy_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            puppy.name = request.form['name']
+        session.add(puppy)
+        session.commit()
+        flash("Puppy named " + puppy.name + " has been successfully edited.")
+        return redirect(url_for('profilePuppy', \
+                puppy_id = puppy_id))
+    else: #GET request
+        return render_template(
+                'puppy_edit.html', puppy = puppy)
 
 @app.route('/puppy/<int:puppy_id>/delete/')
 def deletePuppy(puppy_id):
     # TODO: implement delete functionality
-    shelter = session.query(Puppy).filter_by(puppy_id = puppy_id).one()
+    puppy = session.query(Puppy).filter_by(puppy_id = puppy_id).one()
     return render_template(
             'puppy_profile.html', puppy = puppy)
+
+# End CRUD functionality for puppies
+
+
 
 
 # CRUD functionality for shelters
@@ -84,6 +95,10 @@ def deleteShelter(shelter_id):
     return render_template(
             'shelter_profile.html', shelter = shelter)
 
+# End CRUD functionality for shelters
+
+
+
 
 
 # CRUD functionality for adopters
@@ -94,7 +109,7 @@ def adopter_list():
             'adopter_list.html', items = adopters)
 
 @app.route('/adopters/<int:adopter_id>')
-def adopterProfile(adopter_id):
+def profileAdopter(adopter_id):
     adopter = session.query(Adopter).filter_by(adopter_id = adopter_id).one()
     return render_template(
             'adopter_profile.html', adopter = adopter)
@@ -113,7 +128,7 @@ def deleteAdopter(adopter_id):
     return render_template(
             'adopter_profile.html', adopter = adopter)
 
-
+# End CRUD functionality for adopters
 
 
 

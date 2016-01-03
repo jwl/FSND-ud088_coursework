@@ -1,0 +1,74 @@
+<html>
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+	<h1>Edit details for {{puppy.name}}</h1>
+
+	<form action="{{url_for('editPuppy', puppy_id = puppy.puppy_id)}}" method='post'>
+
+		<dl>
+			<dt>Name:</dt>
+			<dd>
+				<input type='text' size='30' name='name' placeholder='{{puppy.name}}'>
+			</dd>
+
+			<dt>ID number:</dt>
+			<dd>{{puppy.puppy_id}}</dd>
+
+			<dt>Date of Birth</dt>
+			<dd>
+				<input type='text' size='30' name='dateofBirth' placeholder='{{puppy.dateOfBirth}}'>
+			</dd>
+
+			<dt>Gender:</dt>
+			<dd>
+				<input type='text' size='30' name='gender' placeholder='{{puppy.gender}}'>
+			</dd>
+
+			<dt>Weight:</dt>
+			<dd>
+				<input type='text' size='30' name='gender' placeholder='{{puppy.weight}}'>
+			</dd>
+
+			<dt>Shelter of residence:</dt>
+			<dd>
+				{% if puppy.shelter.name %}
+					{{puppy.shelter.name}}
+				{% else %}
+					None
+				{% endif %}
+			</dd>
+
+			<dt>Adopters:</dt>
+			<dd>
+			{% if puppy.adopters %}
+				{% for adopter in puppy.adopters %}
+				<a href="{{url_for('profileAdopter', adopter_id = adopter.adopter_id)}}">{{adopter.name}}</a>
+				{% endfor %}
+			{% else %}
+				None
+			{% endif %}
+			</dd>
+
+			<dt>Description:</dt>
+			<dd>
+			<textarea name='description' rows='5' cols='40' placeholder='{{puppy.profile.description}}'></textarea>
+			</dd>
+
+			<dt>Special needs:</dt>
+			<dd>
+			<textarea name='specialNeeds' rows='5' cols='40' placeholder='{{puppy.profile.specialNeeds}}'></textarea>
+			</dd>
+		</dl>
+
+		<!--Begin editing fields-->
+
+		<!--End editing fields-->
+
+	<input type='submit' value='Edit'>
+	<a href=>
+
+</body>
+</html>
