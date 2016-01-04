@@ -90,20 +90,20 @@ def shelter_list():
             'shelter_list.html', items = shelters)
 
 @app.route('/shelters/<int:shelter_id>')
-def shelterProfile(shelter_id):
+def shelter_profile(shelter_id):
     shelter = session.query(Shelter).filter_by(shelter_id = shelter_id).one()
     return render_template(
             'shelter_profile.html', shelter = shelter)
 
 @app.route('/shelters/<int:shelter_id>/edit/')
-def editShelter(shelter_id):
+def shelter_edit(shelter_id):
     # TODO: implement edit functionality
     shelter = session.query(Shelter).filter_by(shelter_id = shelter_id).one()
     return render_template(
             'shelter_profile.html', shelter = shelter)
 
 @app.route('/shelters/<int:shelter_id>/delete/')
-def deleteShelter(shelter_id):
+def shelter_delete(shelter_id):
     # TODO: implement delete functionality
     shelter = session.query(Shelter).filter_by(shelter_id = shelter_id).one()
     return render_template(
@@ -123,20 +123,20 @@ def adopter_list():
             'adopter_list.html', items = adopters)
 
 @app.route('/adopters/<int:adopter_id>')
-def profileAdopter(adopter_id):
+def adopter_profile(adopter_id):
     adopter = session.query(Adopter).filter_by(adopter_id = adopter_id).one()
     return render_template(
             'adopter_profile.html', adopter = adopter)
 
 @app.route('/adopters/<int:adopter_id>/edit/')
-def editAdopter(adopter_id):
+def adopter_edit(adopter_id):
     # TODO: implement edit functionality
     adopter = session.query(Adopter).filter_by(adopter_id = adopter_id).one()
     return render_template(
             'adopter_profile.html', adopter = adopter)
 
 @app.route('/adopters/<int:adopter_id>/delete/')
-def deleteAdopter(adopter_id):
+def adopter_delete(adopter_id):
     # TODO: implement delete functionality
     adopter = session.query(Adopter).filter_by(adopter_id = adopter_id).one()
     return render_template(

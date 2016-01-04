@@ -26,6 +26,22 @@
 
 <p>Name: {{puppy.name}}</p>
 <p>ID number: {{puppy.puppy_id}}</p>
+<p>Shelter of residence: 
+	{% if puppy.shelter.name %}
+		{{puppy.shelter.name}}
+	{% else %}
+		None
+	{% endif %}
+</p>
+<p>Adopters:
+	{% if puppy.adopters %}
+		{% for adopter in puppy.adopters %}
+		<a href="{{url_for('adopter_profile', adopter_id = adopter.adopter_id)}}">{{adopter.name}}</a>
+		{% endfor %}
+	{% else %}
+		None
+	{% endif %}
+</p>
 <p>Gender: {{puppy.gender}}</p>
 <p>Date of Birth: {{puppy.dateOfBirth}}</p>
 <p>Weight: {{puppy.weight}}</p>

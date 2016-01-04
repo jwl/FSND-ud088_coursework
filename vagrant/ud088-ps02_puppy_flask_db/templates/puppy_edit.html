@@ -45,7 +45,7 @@
 			<dd>
 			{% if puppy.adopters %}
 				{% for adopter in puppy.adopters %}
-				<a href="{{url_for('profileAdopter', adopter_id = adopter.adopter_id)}}">{{adopter.name}}</a>
+				<a href="{{url_for('adopter_profile', adopter_id = adopter.adopter_id)}}">{{adopter.name}}</a>
 				{% endfor %}
 			{% else %}
 				None
