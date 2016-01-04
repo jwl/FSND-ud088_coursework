@@ -19,7 +19,7 @@ def CreateRandomAge():
 
 #This method will create a random weight between 1.0-40.0 pounds (or whatever unit of measure you prefer)
 def CreateRandomWeight():
-    return random.uniform(1.0, 40.0)
+    return int(random.uniform(1.0, 40.0))
 
 
 # def setup_module():
@@ -117,4 +117,4 @@ def populate_database():
         session.commit()
 
 if __name__ == '__main__':
-    regen_database()
+    populate_database()

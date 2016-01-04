@@ -6,7 +6,7 @@
 
 	<h1>Edit details for {{puppy.name}}</h1>
 
-	<form action="{{url_for('editPuppy', puppy_id = puppy.puppy_id)}}" method='post'>
+	<form action="{{url_for('puppy_edit', puppy_id = puppy.puppy_id)}}" method='post'>
 
 		<dl>
 			<dt>Name:</dt>
@@ -19,7 +19,7 @@
 
 			<dt>Date of Birth</dt>
 			<dd>
-				<input type='text' size='30' name='dateofBirth' placeholder='{{puppy.dateOfBirth}}'>
+				<input type='text' size='30' name='dateOfBirth' placeholder='{{puppy.dateOfBirth}}'>
 			</dd>
 
 			<dt>Gender:</dt>
@@ -29,7 +29,7 @@
 
 			<dt>Weight:</dt>
 			<dd>
-				<input type='text' size='30' name='gender' placeholder='{{puppy.weight}}'>
+				<input type='text' size='30' name='weight' placeholder='{{puppy.weight}}'>
 			</dd>
 
 			<dt>Shelter of residence:</dt>
@@ -68,7 +68,13 @@
 		<!--End editing fields-->
 
 	<input type='submit' value='Edit'>
-	<a href=>
+	<div>
+		<p>
+		<a href="{{url_for('puppy_profile', puppy_id = puppy.puppy_id)}}">Back to puppy profile</a>
+		</br>
+		<a href="{{url_for('puppy_list')}}">Back to puppy list</a>
+		</p>
+	</div>
 
 </body>
 </html>

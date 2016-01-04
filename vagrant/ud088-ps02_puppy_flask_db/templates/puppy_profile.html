@@ -32,6 +32,11 @@
 <p>Description: {{puppy.profile.description}}</p>
 <p>Special needs: {{puppy.profile.specialNeeds}}</p>
 
+<div class = "editDeletePane">
+	<a href="{{url_for('puppy_edit', puppy_id = puppy.puppy_id)}}">Edit</a><br>
+	<a href="{{url_for('puppy_delete', puppy_id = puppy.puppy_id)}}">Delete</a>
+</div>
+
 </div> <!-- End pane div -->
 </body>
 </html>

@@ -3,6 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Shelter, Puppy, Adopter, PuppyProfile
 
+import datetime
+
 app = Flask(__name__)
 
 engine = create_engine('sqlite:///puppies.db')
@@ -22,13 +24,13 @@ def puppy_list():
             'puppy_list.html', items = puppies)
 
 @app.route('/puppies/<int:puppy_id>')
-def profilePuppy(puppy_id):
+def puppy_profile(puppy_id):
     puppy = session.query(Puppy).filter_by(puppy_id = puppy_id).one()
     return render_template(
             'puppy_profile.html', puppy = puppy)
 
 @app.route('/puppies/<int:puppy_id>/new/', methods=['GET', 'POST'])
-def newPuppy(puppy_id):
+def puppy_new(puppy_id):
     if request.method == 'POST':
         newPuppy = Puppy(
                 # name = request.form['name'], restaurant_id = restaurant_id
@@ -41,23 +43,35 @@ def newPuppy(puppy_id):
         return render_template('new_puppy.html', \
                 puppy_id = puppy_id)
 
-@app.route('/puppies/<int:puppy_id>/edit/')
-def editPuppy(puppy_id):
+@app.route('/puppies/<int:puppy_id>/edit/', methods=['GET', 'POST'])
+def puppy_edit(puppy_id):
     puppy = session.query(Puppy).filter_by(puppy_id = puppy_id).one()
     if request.method == 'POST':
         if request.form['name']:
             puppy.name = request.form['name']
+        if request.form['dateOfBirth']:
+            puppy.dateOfBirth = datetime.datetime.strptime(request.form['dateOfBirth'], "%Y-%m-%d").date()
+        if request.form['gender']:
+            puppy.gender = request.form['gender']
+        if request.form['weight']:
+            puppy.weight = request.form['weight']
+        # if request.form['description']:
+            # puppy.profile.description = request.form['description']
+            # session.add(puppy.profile)
+        # if request.form['specialNeeds']:
+            # puppy.profile.specialNeeds = request.form['specialNeeds']
+            # session.add(puppy.profile)
         session.add(puppy)
         session.commit()
         flash("Puppy named " + puppy.name + " has been successfully edited.")
-        return redirect(url_for('profilePuppy', \
+        return redirect(url_for('puppy_profile', \
                 puppy_id = puppy_id))
     else: #GET request
         return render_template(
                 'puppy_edit.html', puppy = puppy)
 
 @app.route('/puppy/<int:puppy_id>/delete/')
-def deletePuppy(puppy_id):
+def puppy_delete(puppy_id):
     # TODO: implement delete functionality
     puppy = session.query(Puppy).filter_by(puppy_id = puppy_id).one()
     return render_template(
