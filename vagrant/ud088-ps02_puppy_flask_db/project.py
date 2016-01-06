@@ -55,12 +55,6 @@ def puppy_edit(puppy_id):
             puppy.gender = request.form['gender']
         if request.form['weight']:
             puppy.weight = request.form['weight']
-        # if request.form['description']:
-            # puppy.profile.description = request.form['description']
-            # session.add(puppy.profile)
-        # if request.form['specialNeeds']:
-            # puppy.profile.specialNeeds = request.form['specialNeeds']
-            # session.add(puppy.profile)
         session.add(puppy)
         session.commit()
         flash("Puppy named " + puppy.name + " has been successfully edited.")
@@ -70,12 +64,20 @@ def puppy_edit(puppy_id):
         return render_template(
                 'puppy_edit.html', puppy = puppy)
 
-@app.route('/puppy/<int:puppy_id>/delete/')
+@app.route('/puppy/<int:puppy_id>/delete/', methods=['GET', 'POST'])
 def puppy_delete(puppy_id):
     # TODO: implement delete functionality
     puppy = session.query(Puppy).filter_by(puppy_id = puppy_id).one()
-    return render_template(
-            'puppy_profile.html', puppy = puppy)
+    if request.method == 'POST':
+        deleted_name = puppy.name
+        session.delete(puppy)
+        session.commit()
+        flash("Puppy named " + deleted_name +
+                " has been successfully deleted.")
+        return redirect(url_for('puppy_list'))
+    else:
+        return render_template(
+            'puppy_delete.html', puppy = puppy)
 
 # End CRUD functionality for puppies
 
