@@ -10,14 +10,14 @@ a {text-decoration: none; color:#FFFFCC;}
 
 .pane {position:absolute; left: 25%; border: 2px solid;
     border-radius: 25px; padding: 5px; margin: 5px; border-color: #999999; background-color: #333333 }
-.header         {left:50%; text-align: center;}
+.header         {left:50%; text-align: left;}
 .nameAndID {width:100%}
 .name {width:50%;display: inline-block; float: left;}
 .puppyInfo {}
 .itemInfo {}
 .itemID {text-align: right; width:50%; float: right; }
 .editDeletePane {}
-.puppyPane {border: 2px solid; border-radius: 10px; border-color: #cccccc; margin: 5px; padding: 5px;}
+.puppyPane {border: 2px solid; border-radius: 10px; border-color: #cccccc; margin: 5px; padding: 5px; width:50%;}
 .itemPane {border: 2px solid; border-radius: 5px; border-color: #666666; margin: 5px; padding: 5px;}
 
 .flash          { background: #cee5F5; }

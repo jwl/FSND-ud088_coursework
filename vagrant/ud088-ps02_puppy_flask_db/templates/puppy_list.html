@@ -4,7 +4,7 @@
 </head>
 <body>
 
-<div class = 'pane'>
+<!--<div class = 'pane'>-->
 <div class = 'header'>
 	<h1>Puppies!</h1>
 </div>
@@ -28,11 +28,11 @@
 {% for item in items %}
 <div class = 'puppyPane'> <!-- Begin individual Puppy div -->
 <div class = 'name'>
-	<span class = 'name'><p><a href="{{url_for('puppy_profile', puppy_id = item.puppy_id)}}">{{item.name}}</a></p></span>
+	<span class = 'name'><p>Name: <a href="{{url_for('puppy_profile', puppy_id = item.puppy_id)}}">{{item.name}}</a></p></span>
 </div>
 
 <div class = 'puppyInfo'>
-	<p>{{item.puppy_id}}</p>
+	<p>ID number: {{item.puppy_id}}</p>
 </div>
 
 <div class = "editDeletePane">
@@ -44,7 +44,7 @@
 </div> <!-- End individual puppy div -->
 {% endfor %}
 
-</div> <!-- End pane div -->
+<!--</div> [> End pane div <]-->
 </body>
 </html>
 
