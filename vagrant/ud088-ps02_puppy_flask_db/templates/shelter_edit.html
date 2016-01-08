@@ -1,0 +1,70 @@
+<html>
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+	<h1>Edit details for shelter ID: {{shelter.shelter_id}}</h1>
+
+	<form action="{{url_for('shelter_edit', shelter_id = shelter.shelter_id)}}" method='post'>
+
+		<dl>
+			<dt>Name:</dt>
+			<dd>
+				<input type='text' size='30' name='name' placeholder='{{shelter.name}}'>
+			</dd>
+
+			<dt>ID number:</dt>
+			<dd>{{shelter.shelter_id}}</dd>
+
+			<dt>Address:</dt>
+			<dd>
+				<input type='text' size='30' name='address' placeholder='{{shelter.address}}'>
+			</dd>
+
+			<dt>City:</dt>
+			<dd>
+				<input type='text' size='30' name='city' placeholder='{{shelter.city}}'>
+			</dd>
+
+			<dt>State:</dt>
+			<dd>
+				<input type='text' size='30' name='state' placeholder='{{shelter.state}}'>
+			</dd>
+
+			<dt>Zip Code:</dt>
+			<dd>
+				<input type='text' size='30' name='zipCode' placeholder='{{shelter.zipCode}}'>
+			</dd>
+
+			<dt>Website URL:</dt>
+			<dd>
+				<input type='text' size='30' name='website' placeholder='{{shelter.website}}'>
+			</dd>
+
+			<dt>Maximum Capacity:</dt>
+			<dd>
+				<input type='text' size='30' name='maximum_capacity' placeholder='{{shelter.maximum_capacity}}'>
+			</dd>
+
+			<dt>Current Occupancy:</dt>
+			<dd>
+				<input type='text' size='30' name='current_occupancy' placeholder='{{shelter.current_occupancy}}'>
+			</dd>
+
+		<!--Begin editing fields-->
+
+		<!--End editing fields-->
+
+	<input type='submit' value='Edit'>
+	<div>
+		<p>
+		<a href="{{url_for('shelter_profile', shelter_id = shelter.shelter_id)}}">Back to shelter profile</a>
+		</br>
+		<a href="{{url_for('shelter_list')}}">Back to shelter list</a>
+		</p>
+	</div>
+
+</body>
+</html>
+

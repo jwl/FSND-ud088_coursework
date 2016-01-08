@@ -32,8 +32,13 @@
 <p>Zip Code: {{shelter.zipCode}}</p>
 <p>Website URL: {{shelter.website}}</p>
 <br>
-<p>Current Occupancy: {{shelter.maximum_capacity}}</p>
-<p>Maximum Capacity: {{shelter.current_occupancy}}</p>
+<p>Maximum Capacity: {{shelter.maximum_capacity}}</p>
+<p>Current Occupancy: {{shelter.current_occupancy}}</p>
+
+<div class = "editDeletePane">
+	<a href="{{url_for('shelter_edit', shelter_id = shelter.shelter_id)}}">Edit</a><br>
+	<a href="{{url_for('shelter_delete', shelter_id = shelter.shelter_id)}}">Delete</a>
+</div>
 
 </div> <!-- End pane div -->
 </body>

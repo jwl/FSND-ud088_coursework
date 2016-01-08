@@ -97,19 +97,46 @@ def shelter_profile(shelter_id):
     return render_template(
             'shelter_profile.html', shelter = shelter)
 
-@app.route('/shelters/<int:shelter_id>/edit/')
+@app.route('/shelters/<int:shelter_id>/edit/', methods=['GET', 'POST'])
 def shelter_edit(shelter_id):
     # TODO: implement edit functionality
     shelter = session.query(Shelter).filter_by(shelter_id = shelter_id).one()
-    return render_template(
-            'shelter_profile.html', shelter = shelter)
+    if request.method == 'POST':
+        # Begin check for edits
+        if request.form['name']:
+            shelter.name = request.form['name']
+        if request.form['address']:
+            shelter.address = request.form['address']
+        if request.form['city']:
+            shelter.city = request.form['city']
+        if request.form['state']:
+            shelter.state = request.form['state']
+        if request.form['zipCode']:
+            shelter.zipCode = request.form['zipCode']
+        # End check for edits
+        session.add(shelter)
+        session.commit()
+        flash("Shelter id number " + str(shelter.shelter_id) + " has been successfully edited.")
+        return redirect(url_for('shelter_profile', \
+                shelter_id = shelter_id))
+    else: #GET request
+        return render_template(
+                'shelter_edit.html', shelter = shelter)
 
-@app.route('/shelters/<int:shelter_id>/delete/')
+@app.route('/shelters/<int:shelter_id>/delete/', methods=['GET', 'POST'])
 def shelter_delete(shelter_id):
-    # TODO: implement delete functionality
     shelter = session.query(Shelter).filter_by(shelter_id = shelter_id).one()
-    return render_template(
-            'shelter_profile.html', shelter = shelter)
+    if request.method == 'POST':
+        deleted_name = shelter.name
+        deleted_id = str(shelter.shelter_id)
+        session.delete(shelter)
+        session.commit()
+        flash("Shelter ID " + deleted_id + " has been deleted (" + \
+                deleted_name + ").")
+        return redirect(url_for('shelter_list'))
+    else:
+        return render_template(
+                'shelter_delete.html', shelter = shelter)
 
 # End CRUD functionality for shelters
 
