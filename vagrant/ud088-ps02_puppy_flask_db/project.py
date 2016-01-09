@@ -99,7 +99,6 @@ def shelter_profile(shelter_id):
 
 @app.route('/shelters/<int:shelter_id>/edit/', methods=['GET', 'POST'])
 def shelter_edit(shelter_id):
-    # TODO: implement edit functionality
     shelter = session.query(Shelter).filter_by(shelter_id = shelter_id).one()
     if request.method == 'POST':
         # Begin check for edits
@@ -157,19 +156,34 @@ def adopter_profile(adopter_id):
     return render_template(
             'adopter_profile.html', adopter = adopter)
 
-@app.route('/adopters/<int:adopter_id>/edit/')
+@app.route('/adopters/<int:adopter_id>/edit/', methods = ['GET', 'POST'])
 def adopter_edit(adopter_id):
-    # TODO: implement edit functionality
     adopter = session.query(Adopter).filter_by(adopter_id = adopter_id).one()
-    return render_template(
-            'adopter_profile.html', adopter = adopter)
+    if request.method == 'POST':
+        if request.form['name']:
+            adopter.name = request.form['name']
+        session.add(adopter)
+        session.commit()
+        flash("Adopter named " + str(adopter.name) + " has been successfully edited (id: " + str(adopter.adopter_id) + ")")
+        return redirect(url_for('adopter_profile', adopter_id = adopter_id))
+    else: # GET request
+        return render_template(
+                'adopter_edit.html', adopter = adopter)
 
-@app.route('/adopters/<int:adopter_id>/delete/')
+@app.route('/adopters/<int:adopter_id>/delete/', methods = ['GET', 'POST'])
 def adopter_delete(adopter_id):
-    # TODO: implement delete functionality
     adopter = session.query(Adopter).filter_by(adopter_id = adopter_id).one()
-    return render_template(
-            'adopter_profile.html', adopter = adopter)
+    if request.method == 'POST':
+        deleted_name = adopter.name
+        deleted_id = str(adopter.adopter_id)
+        session.delete(adopter)
+        session.commit()
+        flash("Adopter named " + deleted_name + " has been deleted (id: " + \
+                deleted_id + ").")
+        return redirect(url_for("adopter_list"))
+    else:
+        return render_template(
+                'adopter_delete.html', adopter = adopter)
 
 # End CRUD functionality for adopters
 

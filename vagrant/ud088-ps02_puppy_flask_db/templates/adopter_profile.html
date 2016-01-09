@@ -27,6 +27,13 @@
 <p>Name: {{adopter.name}}</p>
 <p>ID number: {{adopter.adopter_id}}</p>
 
+
+<div class = "editDeletePane">
+	<a href="{{url_for('adopter_edit', adopter_id = adopter.adopter_id)}}">Edit</a><br>
+	<a href="{{url_for('adopter_delete', adopter_id = adopter.adopter_id)}}">Delete</a>
+</div>
+
+
 </div> <!-- End pane div -->
 </body>
 </html>
