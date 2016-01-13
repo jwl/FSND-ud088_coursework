@@ -1,0 +1,66 @@
+<html>
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+	<h1>Create new Puppy entry</h1>
+
+	<form action="{{url_for('puppy_new')}}" method='POST'>
+
+		<dl>
+			<dt>Name:</dt>
+			<dd>
+				<input type='text' size='30' name='name' placeholder='Name'>
+			</dd>
+
+			<dt>Date of Birth</dt>
+			<dd>
+				<input type='text' size='30' name='dateOfBirth' placeholder='YYYY-MM-DD'>
+			</dd>
+
+			<dt>Gender:</dt>
+			<dd>
+				<input type='text' size='30' name='gender' placeholder=''>
+			</dd>
+
+			<dt>Weight:</dt>
+			<dd>
+				<input type='text' size='30' name='weight' placeholder=''>
+			</dd>
+
+			<dt>Shelter of residence:</dt>
+			<dd>
+			TODO: implement list of existing shelters to select from
+			</dd>
+
+			<dt>Adopters:</dt>
+			<dd>
+			TODO: implement list of existing adopters to select from
+			</dd>
+
+			<dt>Description:</dt>
+			<dd>
+			<textarea name='description' rows='5' cols='40' placeholder='Enter description here'></textarea>
+			</dd>
+
+			<dt>Special needs:</dt>
+			<dd>
+			<textarea name='specialNeeds' rows='5' cols='40' placeholder='Enter any special needs here'></textarea>
+			</dd>
+		</dl>
+
+		<!--Begin editing fields-->
+
+		<!--End editing fields-->
+
+	<input type='submit' value='Edit'>
+	<div>
+		<p>
+		<a href="{{url_for('puppy_list')}}">Back to puppy list</a>
+		</p>
+	</div>
+
+</body>
+</html>
+

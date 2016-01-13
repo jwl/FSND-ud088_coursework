@@ -23,14 +23,14 @@ def puppy_list():
     return render_template(
             'puppy_list.html', items = puppies)
 
-@app.route('/puppies/<int:puppy_id>')
+@app.route('/puppies/<int:puppy_id>/')
 def puppy_profile(puppy_id):
     puppy = session.query(Puppy).filter_by(puppy_id = puppy_id).one()
     return render_template(
             'puppy_profile.html', puppy = puppy)
 
-@app.route('/puppies/<int:puppy_id>/new/', methods=['GET', 'POST'])
-def puppy_new(puppy_id):
+@app.route('/puppies/new/', methods=['GET', 'POST'])
+def puppy_new():
     if request.method == 'POST':
         newPuppy = Puppy(
                 # name = request.form['name'], restaurant_id = restaurant_id
@@ -40,8 +40,7 @@ def puppy_new(puppy_id):
         flash("New Puppy added!")
         return redirect(url_for('puppy_list'))
     else: # GET request
-        return render_template('new_puppy.html', \
-                puppy_id = puppy_id)
+        return render_template('puppy_new.html')
 
 @app.route('/puppies/<int:puppy_id>/edit/', methods=['GET', 'POST'])
 def puppy_edit(puppy_id):
