@@ -180,6 +180,26 @@ def adopter_profile(adopter_id):
     return render_template(
             'adopter_profile.html', adopter = adopter)
 
+@app.route('/adopters/new/', methods=['GET', 'POST'])
+def adopter_new():
+    if request.method == 'POST':
+        newAdopter = Adopter(
+                name = request.form['name'],
+                # address = request.form['address'],
+                # city = request.form['city'],
+                # state = request.form['state'],
+                # zipCode = request.form['zipCode'],
+                # website = request.form['website'],
+                # maximum_capacity = request.form['maximum_capacity'],
+                # current_occupancy = request.form['current_occupancy']
+                )
+        session.add(newAdopter)
+        session.commit()
+        flash("New Adopter added!")
+        return redirect(url_for('adopter_list'))
+    else: # GET request
+        return render_template('adopter_new.html')
+
 @app.route('/adopters/<int:adopter_id>/edit/', methods = ['GET', 'POST'])
 def adopter_edit(adopter_id):
     adopter = session.query(Adopter).filter_by(adopter_id = adopter_id).one()
