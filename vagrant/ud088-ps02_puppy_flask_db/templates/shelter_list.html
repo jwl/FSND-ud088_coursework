@@ -24,6 +24,9 @@
 {% endwith %}
 </div> <!-- End Message Flashing -->
 
+<div class = 'newItemPane'>
+	<a href="{{url_for('shelter_new')}}">Create a new Shelter entry</a>
+</div>
 
 {% for item in items %}
 <div class = 'itemPane'> <!-- Begin individual item div -->

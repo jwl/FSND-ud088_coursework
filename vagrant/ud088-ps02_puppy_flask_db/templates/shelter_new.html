@@ -1,0 +1,67 @@
+<html>
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+	<h1>Create new shelter entry</h1>
+
+	<form action="{{url_for('shelter_new')}}" method='POST'>
+
+		<dl>
+			<dt>Name:</dt>
+			<dd>
+				<input type='text' size='30' name='name' placeholder='Name'>
+			</dd>
+
+			<dt>Address:</dt>
+			<dd>
+				<input type='text' size='30' name='address' placeholder=''>
+			</dd>
+
+			<dt>City:</dt>
+			<dd>
+				<input type='text' size='30' name='city' placeholder=''>
+			</dd>
+
+			<dt>State:</dt>
+			<dd>
+				<input type='text' size='30' name='state' placeholder=''>
+			</dd>
+
+			<dt>Zip Code:</dt>
+			<dd>
+				<input type='text' size='30' name='zipCode' placeholder=''>
+			</dd>
+
+			<dt>Website URL:</dt>
+			<dd>
+				<input type='text' size='30' name='website' placeholder=''>
+			</dd>
+
+			<dt>Maximum Capacity:</dt>
+			<dd>
+				<input type='text' size='30' name='maximum_capacity' placeholder=''>
+			</dd>
+
+			<dt>Current Occupancy:</dt>
+			<dd>
+				<input type='text' size='30' name='current_occupancy' placeholder=''>
+			</dd>
+		</dl>
+
+		<!--Begin editing fields-->
+
+		<!--End editing fields-->
+
+	<input type='submit' value='Create'>
+	<div>
+		<p>
+		<a href="{{url_for('shelter_list')}}">Back to shelter list</a>
+		</p>
+	</div>
+
+</body>
+</html>
+
+

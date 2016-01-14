@@ -34,7 +34,8 @@ def puppy_new():
     if request.method == 'POST':
         newPuppy = Puppy(
                 name = request.form['name'],
-                dateOfBirth = datetime.datetime.strptime(request.form['dateOfBirth'], "%Y-%m-%d").date(),
+                dateOfBirth = datetime.datetime.strptime(
+                    request.form['dateOfBirth'], "%Y-%m-%d").date(),
                 gender = request.form['gender'],
                 weight = request.form['weight']
                 )
@@ -52,7 +53,8 @@ def puppy_edit(puppy_id):
         if request.form['name']:
             puppy.name = request.form['name']
         if request.form['dateOfBirth']:
-            puppy.dateOfBirth = datetime.datetime.strptime(request.form['dateOfBirth'], "%Y-%m-%d").date()
+            puppy.dateOfBirth = datetime.datetime.strptime(
+                    request.form['dateOfBirth'], "%Y-%m-%d").date()
         if request.form['gender']:
             puppy.gender = request.form['gender']
         if request.form['weight']:
@@ -98,6 +100,26 @@ def shelter_profile(shelter_id):
     shelter = session.query(Shelter).filter_by(shelter_id = shelter_id).one()
     return render_template(
             'shelter_profile.html', shelter = shelter)
+
+@app.route('/shelters/new/', methods=['GET', 'POST'])
+def shelter_new():
+    if request.method == 'POST':
+        newShelter = Shelter(
+                name = request.form['name'],
+                address = request.form['address'],
+                city = request.form['city'],
+                state = request.form['state'],
+                zipCode = request.form['zipCode'],
+                website = request.form['website'],
+                maximum_capacity = request.form['maximum_capacity'],
+                current_occupancy = request.form['current_occupancy']
+                )
+        session.add(newShelter)
+        session.commit()
+        flash("New Shelter added!")
+        return redirect(url_for('shelter_list'))
+    else: # GET request
+        return render_template('shelter_new.html')
 
 @app.route('/shelters/<int:shelter_id>/edit/', methods=['GET', 'POST'])
 def shelter_edit(shelter_id):
