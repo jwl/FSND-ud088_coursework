@@ -33,7 +33,10 @@ def puppy_profile(puppy_id):
 def puppy_new():
     if request.method == 'POST':
         newPuppy = Puppy(
-                # name = request.form['name'], restaurant_id = restaurant_id
+                name = request.form['name'],
+                dateOfBirth = datetime.datetime.strptime(request.form['dateOfBirth'], "%Y-%m-%d").date(),
+                gender = request.form['gender'],
+                weight = request.form['weight']
                 )
         session.add(newPuppy)
         session.commit()
